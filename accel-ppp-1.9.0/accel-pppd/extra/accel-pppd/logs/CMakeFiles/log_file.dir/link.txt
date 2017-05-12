@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,liblog_file.so -o liblog_file.so CMakeFiles/log_file.dir/log_file.c.o -lrt 

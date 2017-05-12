@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libipv6pool.so -o libipv6pool.so CMakeFiles/ipv6pool.dir/ipv6pool.c.o 

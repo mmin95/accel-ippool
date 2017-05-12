@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libauth_chap_md5.so -o libauth_chap_md5.so CMakeFiles/auth_chap_md5.dir/auth_chap_md5.c.o 

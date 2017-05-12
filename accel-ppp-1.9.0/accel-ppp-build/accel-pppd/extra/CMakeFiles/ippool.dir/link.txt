@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libippool.so -o libippool.so CMakeFiles/ippool.dir/ippool.c.o 

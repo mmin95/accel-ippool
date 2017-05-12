@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libconnlimit.so -o libconnlimit.so CMakeFiles/connlimit.dir/connlimit.c.o 

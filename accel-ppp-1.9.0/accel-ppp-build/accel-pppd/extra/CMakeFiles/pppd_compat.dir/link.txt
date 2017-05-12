@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libpppd_compat.so -o libpppd_compat.so CMakeFiles/pppd_compat.dir/pppd_compat.c.o libsigchld.so -Wl,-rpath,/root/accel-ppp-1.9.0/accel-ppp-build/accel-pppd/extra: 

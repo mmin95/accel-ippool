@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libipv6_dhcp.so -o libipv6_dhcp.so CMakeFiles/ipv6_dhcp.dir/dhcpv6.c.o CMakeFiles/ipv6_dhcp.dir/dhcpv6_packet.c.o 

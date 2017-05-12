@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,liblogwtmp.so -o liblogwtmp.so CMakeFiles/logwtmp.dir/logwtmp.c.o -lutil 

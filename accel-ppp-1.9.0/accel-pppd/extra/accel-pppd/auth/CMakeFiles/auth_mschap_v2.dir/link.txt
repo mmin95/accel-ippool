@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libauth_mschap_v2.so -o libauth_mschap_v2.so CMakeFiles/auth_mschap_v2.dir/auth_mschap_v2.c.o 

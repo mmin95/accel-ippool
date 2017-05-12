@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libauth_pap.so -o libauth_pap.so CMakeFiles/auth_pap.dir/auth_pap.c.o 

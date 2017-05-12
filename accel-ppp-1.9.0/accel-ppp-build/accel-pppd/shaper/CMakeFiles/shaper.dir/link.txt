@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC  -Wall -fno-strict-aliasing -D_GNU_SOURCE -fPIC -rdynamic -fvisibility=hidden  -shared -Wl,-soname,libshaper.so -o libshaper.so CMakeFiles/shaper.dir/shaper.c.o CMakeFiles/shaper.dir/limiter.c.o CMakeFiles/shaper.dir/leaf_qdisc.c.o CMakeFiles/shaper.dir/tc_core.c.o 
