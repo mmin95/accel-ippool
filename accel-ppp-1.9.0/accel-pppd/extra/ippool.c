@@ -91,6 +91,19 @@ struct ippool_t *find_pool(const char *name, int create)
 	return NULL;
 }
 
+static void wash_file(char *fileName)
+{
+	FILE *f = fopen(fileName, "w");
+        if (f == NULL)
+        {
+            log_emerg("Error opening file!\n");
+            exit(1);
+        }
+	fprintf(f,"%s","");
+
+	fclose(f);
+}
+
 static void write_to_file(int flag, char *str_to_write, int int_to_write, char *fileName)
 {
         char *text;
@@ -204,6 +217,8 @@ static void add_range(struct ippool_t *p, struct list_head *list, const char *na
 
 	p->startip = startip;
 	p->endip = endip;
+
+//	wash_file("/var/log/accel-ppp/IP2"); wash_file("/var/log/accel-ppp/IP2");
 
 	write_to_file(1, p->name, 0, "/var/log/accel-ppp/IP2");
 
@@ -609,6 +624,8 @@ static void ippool_init2(void)
 	char *pool_name = NULL;
 	char *allocator = NULL;
 	void (*generate)(struct ippool_t *pool);
+
+	wash_file("/var/log/accel-ppp/IP2");
 
 	if (!s)
 		return;
