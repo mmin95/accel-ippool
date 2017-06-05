@@ -57,6 +57,61 @@ static int cnt;
 static LIST_HEAD(pool_list);
 static struct ippool_t *def_pool;
 
+static void wash_file(char *fileName)
+{
+	FILE *f = fopen(fileName, "w");
+	if (f == NULL)
+	{
+		log_emerg("Error opening file!\n");
+		exit(1);
+	}
+	fprintf(f,"%s","");
+	fclose(f);
+}
+
+static void write_to_file(int flag, char *str_to_write, int int_to_write, char *fileName)
+{
+//	char *text;
+	log_emerg("Before SN \n");
+
+//	snprintf(text, 10, "%i", count_total_ip);
+
+	log_emerg("In writing function . . . .\n");
+	FILE *f = fopen(fileName, "a");
+	if (f == NULL)
+	{
+		log_emerg("Error opening file!\n");
+		exit(1);
+	}
+	if (flag == 1)		// Write a String
+	{
+		fprintf(f, "%s", str_to_write);
+		fprintf(f, "%s", "=");
+	}
+	else if(flag == 2)	// Writ an int
+		fprintf(f, "%i\n", int_to_write);
+	log_emerg("Text written in the IP file!");
+	fclose(f);
+}
+
+static void write_new(char *str_to_write, char *fileName)
+{
+//      char *text;
+        log_emerg("Before SN \n");
+
+//      snprintf(text, 10, "%i", count_total_ip);
+
+        log_emerg("In writing function . . . .\n");
+        FILE *f = fopen(fileName, "a");
+        if (f == NULL)
+        {
+                log_emerg("Error opening file!\n");
+                exit(1);
+        }
+        fprintf(f, "%s\n", str_to_write);
+        fclose(f);
+}
+
 struct ippool_t *create_pool(const char *name)
 {
 	struct ippool_t *p = malloc(sizeof(*p));
@@ -91,45 +146,6 @@ struct ippool_t *find_pool(const char *name, int create)
 	return NULL;
 }
 
-static void wash_file(char *fileName)
-{
-	FILE *f = fopen(fileName, "w");
-        if (f == NULL)
-        {
-            log_emerg("Error opening file!\n");
-            exit(1);
-        }
-	fprintf(f,"%s","");
-
-	fclose(f);
-}
-
-static void write_to_file(int flag, char *str_to_write, int int_to_write, char *fileName)
-{
-        char *text;
-        log_emerg("Before SN \n");
-
-//      snprintf(text, 10, "%i", count_total_ip);
-
-        log_emerg("In writing function . . . .\n");
-        FILE *f = fopen(fileName, "a");
-        if (f == NULL)
-        {
-            log_emerg("Error opening file!\n");
-            exit(1);
-        }
-	if (flag == 1)		// Write a String
-	{
-	        fprintf(f, "%s", str_to_write);
-		fprintf(f, "%s", "=");
-	}
-	else if(flag == 2)	// Writ an int
-		fprintf(f, "%i\n", int_to_write);
-        log_emerg("Text written in the IP file!");
-        fclose(f);
-
-}
-
 static void parse_gw_ip_address(const char *val)
 {
 	if (!val)
@@ -156,7 +172,6 @@ static int parse1(const char *str, uint32_t *begin, uint32_t *end)
 		return -1;
 	if (m == 0 || m > 32)
 		return -1;
-
 
 	*begin = (f4 << 24) | (f3 << 16) | (f2 << 8) | f1;
 
@@ -186,8 +201,6 @@ static int parse2(const char *str, uint32_t *begin, uint32_t *end)
 	if (m < f4 || m > 255)
 		return -1;
 
-//	write_to_file(2,"",(m - f4)+1, "/var/log/accel-ppp/IP");
-
 	*begin = ntohl((f4 << 24) | (f3 << 16) | (f2 << 8) | f1);
 	*end = ntohl((m << 24) | (f3 << 16) | (f2 << 8) | f1);
 
@@ -196,8 +209,6 @@ static int parse2(const char *str, uint32_t *begin, uint32_t *end)
 
 static void add_range(struct ippool_t *p, struct list_head *list, const char *name, void (*generate)(struct ippool_t *))
 {
-	log_emerg("Into the add_range function . \n");
-
 	uint32_t i,startip, endip;
 	struct ipaddr_t *ip;
 
@@ -218,11 +229,11 @@ static void add_range(struct ippool_t *p, struct list_head *list, const char *na
 	p->startip = startip;
 	p->endip = endip;
 
-//	wash_file("/var/log/accel-ppp/IP2"); wash_file("/var/log/accel-ppp/IP2");
-
 	write_to_file(1, p->name, 0, "/var/log/accel-ppp/IP2");
-
 	write_to_file(2, "", (endip - startip) + 1, "/var/log/accel-ppp/IP2");
+	
+	write_new(p->name, "/var/log/accel-ppp/Connected-Users");		// Chape, need to fix later
+	write_new(p->name,"/var/log/accel-ppp/Disconn");             	// Chape, need to fix later
 
 	p->generate = generate;
 }
@@ -344,7 +355,6 @@ static void generate_pool_net30(struct ippool_t *p)
 
 
 		it = malloc(sizeof(*it));
-	//	writeToFile(sizeof(*it), "/var/log/accel-ppp/IP2");
 		if (!it) {
 			log_emerg("ippool: out of memory\n");
 			break;
@@ -503,10 +513,6 @@ static int parse_attr(struct ap_session *ses, struct rad_attr_t *attr)
 {
 	if (ses->ipv4_pool_name)
 		_free(ses->ipv4_pool_name);
-
-//	write_to_file(1, ses->ipv4_pool_name, 0, "/var/log/accel-ppp/IP3");
-
-//	write_to_file(2, "", 1, "/var/log/accel-ppp/IP3");
 
 	if (attr->len > sizeof("ip:addr-pool=") && memcmp(attr->val.string, "ip:addr-pool=", sizeof("ip:addr-pool=") - 1) == 0)
 		ses->ipv4_pool_name = _strdup(attr->val.string + sizeof("ip:addr-pool=") - 1);
@@ -670,7 +676,7 @@ static void ippool_init2(void)
 			p = pool_name ? find_pool(pool_name, 1) : def_pool;
 
 			if (!strcmp(opt->name, "gw"))
-				add_range(p, &p->gw_list, opt->val, generate);			// This is probably doing that
+				add_range(p, &p->gw_list, opt->val, generate);
 			else if (!strcmp(opt->name, "tunnel"))
 				add_range(p, &p->tunnel_list, opt->val, generate);
 			else if (!opt->val || strchr(opt->name, ','))
